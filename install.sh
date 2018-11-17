@@ -10,8 +10,12 @@ sudo cp GamePad.py /usr/local/bin/GamePad.py
 rm GamePad.py
 sudo cat <<EOT >> /usr/local/bin/chromepad 
 #!/bin/bash
-sudo modprobe uinput
-sudo python GamePad.py
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root. ie sudo chromepad"
+  exit
+fi
+modprobe uinput
+python GamePad.py
 EOT
 sudo chmod a+x /usr/local/bin/chromepad
 echo "Installed ChromePad."
