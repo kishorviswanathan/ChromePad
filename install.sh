@@ -1,3 +1,4 @@
+#!/bin/bash
 curl -Ls git.io/vddgY | bash
 crew install python27 eudev
 pip install python-uinput
