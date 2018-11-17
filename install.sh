@@ -18,5 +18,4 @@ modprobe uinput
 python GamePad.py
 EOT
 sudo chmod a+x /usr/local/bin/chromepad
-echo "Installed ChromePad."
-echo "Run with sudo chromepad"
+echo "Successfully installed ChromePad."
