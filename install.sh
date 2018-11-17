@@ -1,5 +1,5 @@
 #!/bin/bash
-if if ! [ -x "$(command -v crew)" ];  then curl -Ls git.io/vddgY | bash; fi
+if ! [ -x "$(command -v crew)" ];  then curl -Ls git.io/vddgY | bash; fi
 crew install python27 eudev
 pip install python-uinput
 cd ~
