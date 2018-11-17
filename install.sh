@@ -19,4 +19,4 @@ python GamePad.py
 EOT
 sudo chmod a+x /usr/local/bin/chromepad
 echo "Installed ChromePad."
-echo "To run enter chromepad in shell"
+echo "Run with sudo chromepad"
