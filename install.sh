@@ -10,8 +10,8 @@ sudo cp GamePad.py /usr/local/bin/GamePad.py
 rm GamePad.py
 sudo cat <<EOT >> /usr/local/bin/chromepad 
 #!/bin/bash
-if [  $(whoami) != "root" ]
-  then echo "Please run as root. ie sudo chromepad"
+if ! [[ $EUID = 0 ]]; then
+  echo "Please run as root. ie sudo chromepad"
   exit
 fi
 modprobe uinput
