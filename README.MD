@@ -17,3 +17,8 @@ Run installation script
 ```
 curl -Ls https://raw.githubusercontent.com/kishorv06/ChromePad/master/install.sh?$RANDOM | bash
 ```
+
+Once installation is completed, run with the following command
+```
+sudo chromepad
+```
