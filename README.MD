@@ -15,5 +15,5 @@ shell
 
 Run installation script
 ```
-curl -Ls  | bash
+curl -Ls https://raw.githubusercontent.com/kishorv06/ChromePad/master/install.sh | bash
 ```
