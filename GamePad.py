@@ -91,7 +91,7 @@ with uinput.Device(events) as device:
         try:
                 event = in_file.read(EVENT_SIZE)
         except:
-                print "Exiting ChromePad..."
+                print "\nExiting ChromePad..."
                 exit()
 
 in_file.close()
