@@ -23,10 +23,10 @@ events = (
         uinput.BTN_Y,
         uinput.BTN_TL,
         uinput.BTN_TR,
-        uinput.BTN_SELECT,
-        uinput.BTN_START,
-        uinput.ABS_X + (-5, 5, 0, 0),
-        uinput.ABS_Y + (-5, 5, 0, 0)
+        uinput.ABS_X + (-1, 1, 0, 0),
+        uinput.ABS_Y + (-1, 1, 0, 0),
+        uinput.ABS_Z + (-1, 1, 0, 0),
+        uinput.ABS_RZ + (-1, 1, 0, 0),
         )
         
 buttons = {
@@ -34,40 +34,45 @@ buttons = {
         28  : uinput.BTN_A,
         25  : uinput.BTN_B,
         1   : uinput.BTN_B,
+        
         37  : uinput.BTN_X,
         24  : uinput.BTN_Y,
+        
         4   : uinput.BTN_TL,
         10  : uinput.BTN_TR,
-        36  : uinput.BTN_START,
-        33  : uinput.BTN_SELECT
     }
-axes = {
-        106 : [+5,0], #D-PAD Right
-        32  : [+5,0],
-        105 : [-5,0], #D-PAD Left
-        30  : [-5,0],
-        103 : [0,-5], #D-PAD Up
-        17  : [0,-5],
-        108 : [0,+5], #D-PAD Down
-        31  : [0,+5],
+axes0 = {
+        32  : [1,0], # Right
+        30  : [-1,0],# Left
+        17  : [0,-1],# Up
+        31  : [0,1], # Down
+}
+
+axes1 = {
+        106 : [1,0], # Right
+        105 : [-1,0],# Left
+        103 : [0,-1],# Up
+        108 : [0,1], # Down
 }
 
 print "+---------------------------+"
 print "|         ChromePad         |"
 print "|           KEYMAP          |"
 print "+---------------------------+"
-print "| W/UP ARROW  | D PAD UP    |"
-print "| S/DWN ARROW | D PAD DOWN  |"
-print "| A/LFT ARROW | D PAD LEFT  |"
-print "| D/RT ARROW  | D PAD RIGHT |"
+print "| W           | L STICK UP  |"
+print "| S           | L STICK DWN |"
+print "| A           | L STICK LFT |"
+print "| D           | L STICK RHT |"
+print "| UP ARROW    | R STICK UP  |"
+print "| DWN ARROW   | R STICK DWN |"
+print "| LFT ARROW   | R STICK LFT |"
+print "| RT ARROW    | R STICK DWN |"
 print "| L/ENTER     | A           |"
 print "| P/ESC       | B           |"
 print "| K           | X           |"
 print "| O           | Y           |"
 print "| 3           | LT          |"
 print "| 9           | RT          |"
-print "| F           | SELECT      |"
-print "| J           | START       |"
 print "+---------------------------+"
 
 prevcode = -1
@@ -77,15 +82,21 @@ with uinput.Device(events) as device:
     event = in_file.read(EVENT_SIZE)
     while event:
         (tv_sec, tv_usec, type, code, value) = struct.unpack(FORMAT, event)
-        if (type != 0 or code != 0 or value != 0) and (type == 1 and (prevcode != code or prevval != value)):
-            if (code in axes):
-                device.emit(uinput.ABS_X, axes[code][0] * value, syn=False)
-                device.emit(uinput.ABS_Y, axes[code][1] * value)
-            elif(code in buttons):
-                if value == 2 or value == 0:
-                    device.emit(buttons[code],int(value/2))
+        if (type != 0 or code != 0 or value != 0) and (type == 1 and (prevcode != code or prevval != value) and value != 2 ):
+            if (code in axes0):
+                x,y = axes0[code]
+                if y == 0:
+                    device.emit(uinput.ABS_X, x * value)
                 else:
-                    device.emit_click(buttons[code])
+                    device.emit(uinput.ABS_Y, y * value)
+            elif (code in axes1):
+                x,y = axes1[code]
+                if y == 0:
+                    device.emit(uinput.ABS_Z, x * value)
+                else:
+                    device.emit(uinput.ABS_RZ, y * value)
+            elif(code in buttons):
+                device.emit(buttons[code],value)
             prevcode = code
             prevval = value
         try:
