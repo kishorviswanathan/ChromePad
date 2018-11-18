@@ -54,26 +54,27 @@ axes = {
         31  : [0,+5],
 }
 
+print "-----------------------------"
+print "|       Virtual GamePad     |"
+print "|           KEYMAP          |"
+print "-----------------------------"
+print "| W/UP ARROW  | D PAD UP    |"
+print "| S/DWN ARROW | D PAD DOWN  |"
+print "| A/LFT ARROW | D PAD LEFT  |"
+print "| D/RT ARROW  | D PAD RIGHT |"
+print "| L/ENTER     | A           |"
+print "| P/ESC       | B           |"
+print "| K           | X           |"
+print "| O           | Y           |"
+print "| 3           | LT          |"
+print "| 9           | RT          |"
+print "| F           | SELECT      |"
+print "| J           | START       |"
+print "-----------------------------"
+
 prevcode = -1
 prevval = -1
 with uinput.Device(events) as device:
-    print "-----------------------------"
-    print "|       Virtual GamePad     |"
-    print "|           KEYMAP          |"
-    print "-----------------------------"
-    print "| W/UP ARROW  | D PAD UP    |"
-    print "| S/DWN ARROW | D PAD DOWN  |"
-    print "| A/LFT ARROW | D PAD LEFT  |"
-    print "| D/RT ARROW  | D PAD RIGHT |"
-    print "| L/ENTER     | A           |"
-    print "| P/ESC       | B           |"
-    print "| K           | X           |"
-    print "| O           | Y           |"
-    print "| 3           | LT          |"
-    print "| 9           | RT          |"
-    print "| F           | SELECT      |"
-    print "| J           | START       |"
-    print "-----------------------------"
     print "Running..."
     while event:
         (tv_sec, tv_usec, type, code, value) = struct.unpack(FORMAT, event)
