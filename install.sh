@@ -9,11 +9,14 @@ curl -Ls https://raw.githubusercontent.com/kishorv06/ChromePad/master/GamePad.py
 cp GamePad.py /usr/local/bin/GamePad.py
 sudo cat <<EOT >> /usr/local/bin/chromepad 
 #!/bin/bash
+printf "Checking if user is root\n"
 if ! [[ \$EUID = 0 ]]; then
   echo "Please run as root. ie sudo chromepad"
   exit
 fi
+printf "Loading uinput module\n"
 modprobe uinput
+printf "Starting ChromePad\n\n"
 python GamePad.py
 EOT
 sudo chmod a+x /usr/local/bin/chromepad
