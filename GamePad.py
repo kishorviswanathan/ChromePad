@@ -35,6 +35,7 @@ buttons = {
         38  : uinput.BTN_A,
         28  : uinput.BTN_A,
         25  : uinput.BTN_B,
+        1   : uinput.BTN_B,
         37  : uinput.BTN_X,
         24  : uinput.BTN_Y,
         4   : uinput.BTN_TL,
@@ -42,6 +43,16 @@ buttons = {
         36  : uinput.BTN_START,
         33  : uinput.BTN_SELECT
     }
+axes = {
+        106 : [+5,0], #D-PAD Right
+        32  : [+5,0],
+        105 : [-5,0], #D-PAD Left
+        30  : [-5,0],
+        103 : [0,-5], #D-PAD Up
+        17  : [0,-5],
+        108 : [0,+5], #D-PAD Down
+        31  : [0,+5],
+}
 
 prevcode = -1
 prevval = -1
@@ -55,7 +66,7 @@ with uinput.Device(events) as device:
     print "| A/LFT ARROW | D PAD LEFT  |"
     print "| D/RT ARROW  | D PAD RIGHT |"
     print "| L/ENTER     | A           |"
-    print "| P           | B           |"
+    print "| P/ESC       | B           |"
     print "| K           | X           |"
     print "| O           | Y           |"
     print "| 3           | LT          |"
@@ -67,19 +78,9 @@ with uinput.Device(events) as device:
     while event:
         (tv_sec, tv_usec, type, code, value) = struct.unpack(FORMAT, event)
         if (type != 0 or code != 0 or value != 0) and (type == 1 and (prevcode != code or prevval != value)):
-            x = value * 5
-            if code == 106 or code == 32: #D-PAD Right
-                device.emit(uinput.ABS_X, +x, syn=False)
-                device.emit(uinput.ABS_Y, 0)
-            elif code == 105 or code == 30: #D-PAD Left
-                device.emit(uinput.ABS_X, -x, syn=False)
-                device.emit(uinput.ABS_Y, 0)
-            elif code == 103 or code == 17: #D-PAD Up
-                device.emit(uinput.ABS_Y, -x, syn=False)
-                device.emit(uinput.ABS_X, 0)
-            elif code == 108 or code == 31: #D-PAD Down
-                device.emit(uinput.ABS_Y, +x, syn=False)
-                device.emit(uinput.ABS_X, 0)
+            if (code in axes):
+                device.emit(uinput.ABS_X, axes[code][0] * value, syn=False)
+                device.emit(uinput.ABS_Y, axes[code][1] * value)
             elif(code in buttons):
                 if value == 2 or value == 0:
                     device.emit(buttons[code],int(value/2))
