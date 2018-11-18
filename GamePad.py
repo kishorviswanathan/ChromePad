@@ -16,8 +16,6 @@ EVENT_SIZE = struct.calcsize(FORMAT)
 #open file in binary mode
 in_file = open(infile_path, "rb")
 
-event = in_file.read(EVENT_SIZE)
-
 events = (
         uinput.BTN_A,
         uinput.BTN_B,
@@ -54,10 +52,10 @@ axes = {
         31  : [0,+5],
 }
 
-print "-----------------------------"
-print "|       Virtual GamePad     |"
+print "+---------------------------+"
+print "|         ChromePad         |"
 print "|           KEYMAP          |"
-print "-----------------------------"
+print "+---------------------------+"
 print "| W/UP ARROW  | D PAD UP    |"
 print "| S/DWN ARROW | D PAD DOWN  |"
 print "| A/LFT ARROW | D PAD LEFT  |"
@@ -70,12 +68,13 @@ print "| 3           | LT          |"
 print "| 9           | RT          |"
 print "| F           | SELECT      |"
 print "| J           | START       |"
-print "-----------------------------"
+print "+---------------------------+"
 
 prevcode = -1
 prevval = -1
 with uinput.Device(events) as device:
-    print "Running..."
+    print "ChromePad Started. Start playing !!"
+    event = in_file.read(EVENT_SIZE)
     while event:
         (tv_sec, tv_usec, type, code, value) = struct.unpack(FORMAT, event)
         if (type != 0 or code != 0 or value != 0) and (type == 1 and (prevcode != code or prevval != value)):
@@ -89,7 +88,10 @@ with uinput.Device(events) as device:
                     device.emit_click(buttons[code])
             prevcode = code
             prevval = value
-    
-        event = in_file.read(EVENT_SIZE)
+        try:
+                event = in_file.read(EVENT_SIZE)
+        except:
+                print "Exiting ChromePad..."
+                exit()
 
 in_file.close()
