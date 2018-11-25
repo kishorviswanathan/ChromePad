@@ -26,7 +26,7 @@ modprobe uinput
 printf "\r[ OK ]  Loading uinput module\n"
 printf "[ OK ]  Starting ChromePad Server\n"
 clear
-python GamePad.py
+python /usr/local/bin/GamePad.py
 EOT
 sudo chmod a+x /usr/local/bin/chromepad
 echo "Successfully installed ChromePad."
