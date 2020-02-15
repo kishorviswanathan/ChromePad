@@ -5,7 +5,7 @@ if ! [ -x "$(command -v crew)" ];  then
   curl -Ls git.io/vddgY | bash
 fi
 printf "Installing Python & Udev Library \n\n"
-crew install python27 eudev
+yes | crew install python27 eudev
 printf "Installing Python Module \n\n"
 pip install python-uinput
 printf "Copying ChromePad files to /usr/local/bin/ \n\n"
