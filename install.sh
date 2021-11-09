@@ -27,7 +27,7 @@ if ! [ -f "GamePad.py" ]; then
   curl -Ls https://raw.githubusercontent.com/kishorv06/ChromePad/master/GamePad.py > GamePad.py
 fi
 chmod a+x GamePad.py
-mv GamePad.py $INSTALLDIR
+sudo mv GamePad.py $INSTALLDIR
 
 # Generate wrapper script
 sudo tee $INSTALLDIR/chromepad << EOF >> /dev/null
