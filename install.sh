@@ -12,7 +12,7 @@ fi
 
 # Install python
 printf "Installing Python & Udev Library \n"
-# yes | crew install python3 eudev
+yes | crew install python3 eudev
 printf "Installing Python Module \n"
 sudo python3 -m pip install python-uinput
 
@@ -22,12 +22,10 @@ printf "Copying ChromePad files to %s \n" $INSTALLDIR
 # Remove old files
 sudo rm $INSTALLDIR/chromepad $INSTALLDIR/GamePad.py 2>/dev/null
 
-# Download new files
-temp_dir=$(mktemp -d)
-cd "$temp_dir" || exit
-
 # Download GamePad.py
-curl -Ls https://raw.githubusercontent.com/kishorv06/ChromePad/master/GamePad.py > GamePad.py
+if ! [ -f "GamePad.py" ]; then
+  curl -Ls https://raw.githubusercontent.com/kishorv06/ChromePad/master/GamePad.py > GamePad.py
+fi
 chmod a+x GamePad.py
 mv GamePad.py $INSTALLDIR
 
@@ -49,5 +47,4 @@ python3 $INSTALLDIR/GamePad.py
 EOF
 sudo chmod a+x $INSTALLDIR/chromepad
 
-rm -rf "$temp_dir"
 echo "Successfully installed ChromePad."
